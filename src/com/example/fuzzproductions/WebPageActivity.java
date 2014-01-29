@@ -15,12 +15,15 @@ public class WebPageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_web_page);
 
+		//create webview with settings to allow for correct zoom
 		webView = (WebView) findViewById(R.id.webView1);
 		webView.setWebViewClient(new WebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.getSettings().setLoadWithOverviewMode(true);
 		webView.getSettings().setBuiltInZoomControls(true);
 		webView.getSettings().setUseWideViewPort(true);
+		
+		// load fuzz productions website
 		webView.loadUrl("http://www.fuzzproductions.com/");
 
 	}

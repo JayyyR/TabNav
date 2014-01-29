@@ -33,6 +33,7 @@ public class ListAdapter extends ArrayAdapter<FuzzItem> {
 
 		View v = convertView;
 
+		//inflate our view if need be from correct layout
 		if (v == null) {
 
 			LayoutInflater vi;
@@ -41,9 +42,10 @@ public class ListAdapter extends ArrayAdapter<FuzzItem> {
 
 		}
 
-		FuzzItem p = getItem(position);
+		//get correct fuzz item
+		FuzzItem item = getItem(position);
 
-		if (p != null) {
+		if (item != null) {
 
 			TextView id = (TextView) v.findViewById(R.id.idTextView);
 			TextView text = (TextView) v.findViewById(R.id.textTextView);
@@ -51,16 +53,15 @@ public class ListAdapter extends ArrayAdapter<FuzzItem> {
 
 			//set id
 			if (id != null) {
-				id.setText("id: " + p.id);
+				id.setText("id: " + item.id);
 			}
 			
 			//if the type is text
-			if (text != null && !p.isImage()) {
-				
+			if (text != null && !item.isImage()) {
 				//show textview, hide imageview
 				text.setVisibility(View.VISIBLE);
 				image.setVisibility(View.GONE);
-				text.setText(p.data);
+				text.setText(item.data);
 			}
 			//if the type is image
 			else if (image != null) {
@@ -68,9 +69,9 @@ public class ListAdapter extends ArrayAdapter<FuzzItem> {
 				image.setVisibility(View.VISIBLE);
 				text.setVisibility(View.GONE);
 				
-				if(p.image != null)
-					image.setImageBitmap(p.image);
-				//a good amount of the urls for the images lead nowhere. I'm putting this here to indicate those
+				if(item.image != null)
+					image.setImageBitmap(item.image);
+				//a good amount of the urls for the images lead nowhere. I'm putting this image here to indicate those
 				else
 					image.setImageResource(R.drawable.error);
 

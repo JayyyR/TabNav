@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class ArrayListFragment  extends ListFragment {
@@ -26,10 +25,10 @@ public class ArrayListFragment  extends ListFragment {
 		return f;
 	}
 
-	//grab num which is our page number
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//grab num which is our page number
 		mNum = getArguments() != null ? getArguments().getInt("num") : 1;
 	}
 
@@ -37,6 +36,7 @@ public class ArrayListFragment  extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		//inflate correct layout
 		View v = inflater.inflate(R.layout.fragment_pager_list, container, false);
 		return v;
 	}
@@ -44,10 +44,9 @@ public class ArrayListFragment  extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		//String[] temp = {"test", "hi","go"};
 		//create new custom adapter
 		ListAdapter customAdapter;
-		Log.v("num", "mNum is: " + mNum);
+
 		//all the data
 		if(mNum == 0){
 			customAdapter = new ListAdapter(getActivity(), R.layout.list_item, Home.data);
@@ -79,7 +78,7 @@ public class ArrayListFragment  extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Log.i("FragmentList", "Item clicked: " + id);
-		
+		//on a click, load webview activity
 		Intent myIntent = new Intent(getActivity(), WebPageActivity.class);
 		getActivity().startActivity(myIntent);
 	}

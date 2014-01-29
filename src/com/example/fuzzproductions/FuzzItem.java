@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import com.google.gson.annotations.SerializedName;
 
+/**Class used to grab data from json**/
 public class FuzzItem {
 	
 	@SerializedName("id")

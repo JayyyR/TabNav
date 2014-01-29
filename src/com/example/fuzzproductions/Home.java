@@ -1,6 +1,5 @@
 package com.example.fuzzproductions;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -39,12 +38,12 @@ import android.view.ViewGroup;
 public class Home extends FragmentActivity {
 
 	public static final int TAB_COUNT = 3;
-	//define variables for pager and adapter
+	
 	MyPagerAdapter mAdapter;
 	ViewPager mPager;
 	ActionBar actionBar;
-	boolean firstLoad = true;
-	public static ArrayList<FuzzItem> data = new ArrayList<FuzzItem>();
+	boolean firstLoad = true;	//flag to tell if it is the first time loading up data
+	public static ArrayList<FuzzItem> data = new ArrayList<FuzzItem>();	//arraylist for storing data from json
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -191,10 +190,10 @@ public class Home extends FragmentActivity {
 		@Override
 		protected void onPostExecute(String result){
 			super.onPostExecute(result);
-			for ( FuzzItem item : data){
-				Log.v("item", "item id is: " + item.id + " item type is: " + item.type + " item data is: " + item.data);
-			}
+
 			progressDialog.dismiss();
+			
+			//download images
 			ImageDownloader getImages = new ImageDownloader(activity);
 			getImages.execute();
 		}
@@ -228,7 +227,7 @@ public class Home extends FragmentActivity {
 						URL url = new URL(item.data);
 						HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 						connection.setDoInput(true);
-						connection.setConnectTimeout(3000);	//one of the images times out, so i set limit (it's this url: http://images-5.findicons.com/files/icons/1156/fugue/16/grid.png)
+						connection.setConnectTimeout(3000);	//one of the images times out, so i set a limit (it's this url: http://images-5.findicons.com/files/icons/1156/fugue/16/grid.png)
 						connection.connect();
 						InputStream input = connection.getInputStream();
 						Bitmap bitmap = BitmapFactory.decodeStream(input);
@@ -250,10 +249,10 @@ public class Home extends FragmentActivity {
 		@Override
 		protected void onPostExecute(String result){
 			super.onPostExecute(result);
-			for ( FuzzItem item : data){
-				Log.v("item", "item id is: " + item.id + " item type is: " + item.type + " item data is: " + item.data);
-			}
+
 			progressDialog.dismiss();
+			
+			//setup rest of activity
 			setUp();
 		}
 
