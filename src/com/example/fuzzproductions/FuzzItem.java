@@ -12,5 +12,17 @@ public class FuzzItem {
 	
 	@SerializedName("data")
 	public String data;
+	
+	public boolean isImage(){
+		if (type.equals("image"))
+			return true;
+		return false;
+	}
+	
+	public boolean isText(){
+		if (type.equals("text"))
+			return true;
+		return false;
+	}
 
 }

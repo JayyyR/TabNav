@@ -1,5 +1,7 @@
 package com.example.fuzzproductions;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -43,8 +45,34 @@ public class ArrayListFragment  extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		//String[] temp = {"test", "hi","go"};
-		//create new custon adapter
-		ListAdapter customAdapter = new ListAdapter(getActivity(), R.layout.list_item, Home.data);
+		//create new custom adapter
+		ListAdapter customAdapter;
+		Log.v("num", "mNum is: " + mNum);
+		//all the data
+		if(mNum == 0){
+			customAdapter = new ListAdapter(getActivity(), R.layout.list_item, Home.data);
+		}
+		//just text
+		else if (mNum == 1){
+			//create new list with just text items
+			ArrayList<FuzzItem> textItems = new ArrayList<FuzzItem>();
+			for (FuzzItem item: Home.data){
+				if (item.isText())
+					textItems.add(item);
+			}
+			customAdapter = new ListAdapter(getActivity(), R.layout.list_item, textItems);
+		}
+		//just images
+		else{
+			//create new list with just image items
+			ArrayList<FuzzItem> imageItems = new ArrayList<FuzzItem>();
+			for (FuzzItem item: Home.data){
+				if (item.isImage())
+					imageItems.add(item);
+			}
+			customAdapter = new ListAdapter(getActivity(), R.layout.list_item, imageItems);
+		}
+
 		setListAdapter(customAdapter);
 	}
 

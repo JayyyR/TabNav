@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class ListAdapter extends ArrayAdapter<FuzzItem> {
 	
-
+	
 	public ListAdapter(Context context, int textViewResourceId) {
 	    super(context, textViewResourceId);
 	}
@@ -43,9 +43,9 @@ public class ListAdapter extends ArrayAdapter<FuzzItem> {
 	        TextView image = (TextView) v.findViewById(R.id.imageImageView);
 
 	        if (id != null) {
-	        	id.setText(p.id);
+	        	id.setText("id" + p.id);
 	        }
-	        if (text != null && p.type.equals("text")) {
+	        if (text != null && !p.isImage()) {
 	        	text.setVisibility(View.VISIBLE);
 	        	image.setVisibility(View.GONE);
 	            text.setText(p.data);
