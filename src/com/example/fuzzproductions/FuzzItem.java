@@ -1,5 +1,7 @@
 package com.example.fuzzproductions;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.annotations.SerializedName;
 
 public class FuzzItem {
@@ -12,6 +14,8 @@ public class FuzzItem {
 	
 	@SerializedName("data")
 	public String data;
+	
+	public Bitmap image;
 	
 	public boolean isImage(){
 		if (type.equals("image"))

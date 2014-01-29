@@ -1,7 +1,13 @@
 package com.example.fuzzproductions;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
@@ -9,6 +15,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -21,6 +28,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.ActionBar.Tab;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -175,6 +184,65 @@ public class Home extends FragmentActivity {
 			} catch (Exception e) {
 				Log.e("error", "error grabbing json");
 			}
+			return null;
+		}
+
+
+		@Override
+		protected void onPostExecute(String result){
+			super.onPostExecute(result);
+			for ( FuzzItem item : data){
+				Log.v("item", "item id is: " + item.id + " item type is: " + item.type + " item data is: " + item.data);
+			}
+			progressDialog.dismiss();
+			ImageDownloader getImages = new ImageDownloader(activity);
+			getImages.execute();
+		}
+
+	}
+
+	/*private class to download images*/
+	private class ImageDownloader extends AsyncTask<String, Void, String>{
+
+		Activity activity;
+		ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
+
+		public ImageDownloader(Activity activity){
+			this.activity = activity;
+		};
+
+		@Override
+		protected void onPreExecute(){
+			//progress dialog displays while connecting to the internet
+			progressDialog= ProgressDialog.show(activity, "Downloading Images","Please Wait", true);
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+
+			//go through items
+			for (FuzzItem item : data){
+				//if we hit an image, download and store it
+				if (item.isImage()){
+					try {
+						URL url = new URL(item.data);
+						HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+						connection.setDoInput(true);
+						connection.setConnectTimeout(5000);	//one of the images times out, so i set limit (it's this url: http://images-5.findicons.com/files/icons/1156/fugue/16/grid.png)
+						connection.connect();
+						InputStream input = connection.getInputStream();
+						Bitmap bitmap = BitmapFactory.decodeStream(input);
+						item.image = bitmap;
+						//also a good amount of the image url's lead to file not found exceptions
+					} catch (MalformedURLException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				}
+			}
+
 			return null;
 		}
 
