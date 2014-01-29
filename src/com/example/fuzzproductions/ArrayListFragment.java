@@ -1,7 +1,7 @@
 package com.example.fuzzproductions;
 
 import java.util.ArrayList;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -79,5 +79,8 @@ public class ArrayListFragment  extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Log.i("FragmentList", "Item clicked: " + id);
+		
+		Intent myIntent = new Intent(getActivity(), WebPageActivity.class);
+		getActivity().startActivity(myIntent);
 	}
 }

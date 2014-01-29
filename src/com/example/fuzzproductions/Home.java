@@ -228,7 +228,7 @@ public class Home extends FragmentActivity {
 						URL url = new URL(item.data);
 						HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 						connection.setDoInput(true);
-						connection.setConnectTimeout(5000);	//one of the images times out, so i set limit (it's this url: http://images-5.findicons.com/files/icons/1156/fugue/16/grid.png)
+						connection.setConnectTimeout(3000);	//one of the images times out, so i set limit (it's this url: http://images-5.findicons.com/files/icons/1156/fugue/16/grid.png)
 						connection.connect();
 						InputStream input = connection.getInputStream();
 						Bitmap bitmap = BitmapFactory.decodeStream(input);

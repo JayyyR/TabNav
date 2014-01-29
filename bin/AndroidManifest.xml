@@ -7,7 +7,7 @@
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="18" />
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -23,6 +23,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.fuzzproductions.WebPageActivity"
+            android:label="@string/title_activity_web_page" >
         </activity>
     </application>
 
