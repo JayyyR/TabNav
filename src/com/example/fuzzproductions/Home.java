@@ -34,11 +34,21 @@ public class Home extends FragmentActivity {
 	MyPagerAdapter mAdapter;
 	ViewPager mPager;
 	ActionBar actionBar;
+	boolean firstLoad = true;
+	public static ArrayList<FuzzItem> data = new ArrayList<FuzzItem>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
+
+		//grab json data
+		JSONReader dataGrabber = new JSONReader("http://dev.fuzzproductions.com/MobileTest/test.json", this);
+		dataGrabber.execute();
+
+	}
+
+	public void setUp(){
 
 		actionBar = getActionBar();
 
@@ -86,10 +96,8 @@ public class Home extends FragmentActivity {
 				tab.setText("Images");
 			actionBar.addTab(tab);
 		}
-		
-		//grab json data
-		JSONReader dataGrabber = new JSONReader("http://dev.fuzzproductions.com/MobileTest/test.json", this);
-		dataGrabber.execute();
+
+
 
 	}
 
@@ -119,7 +127,11 @@ public class Home extends FragmentActivity {
 			super.finishUpdate(container);
 
 			//change tabs
-			actionBar.selectTab(actionBar.getTabAt(mPager.getCurrentItem()));;
+			if (!firstLoad)			// on first load, you will get an index out of bounds error if you try to select a tab that's not there
+				actionBar.selectTab(actionBar.getTabAt(mPager.getCurrentItem()));
+			else{
+				firstLoad=false;
+			}
 		}
 
 
@@ -136,7 +148,6 @@ public class Home extends FragmentActivity {
 		Activity activity;
 		java.lang.reflect.Type arrayListType = new TypeToken<ArrayList<FuzzItem>>(){}.getType();
 		Gson gson = new Gson();
-		ArrayList<FuzzItem> data = new ArrayList<FuzzItem>();
 		ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
 
 		public JSONReader(String url, Activity activity){
@@ -146,18 +157,20 @@ public class Home extends FragmentActivity {
 
 		@Override
 		protected void onPreExecute(){
+			//progress dialog displays while connecting to the internet
 			progressDialog= ProgressDialog.show(activity, "Grabbing Data","Please Wait", true);
 		}
 
 		@Override
 		protected String doInBackground(String... params) {
 
-
 			HttpClient httpClient = new DefaultHttpClient();
 			try {
+				//grab json data
 				HttpResponse response = httpClient.execute(new HttpGet(url));
 				HttpEntity entity = response.getEntity();
 				Reader reader = new InputStreamReader(entity.getContent());
+				//set our arraylist with fuzzitem objects using gson
 				data = gson.fromJson(reader, arrayListType);
 			} catch (Exception e) {
 				Log.e("error", "error grabbing json");
@@ -173,6 +186,7 @@ public class Home extends FragmentActivity {
 				Log.v("item", "item id is: " + item.id + " item type is: " + item.type + " item data is: " + item.data);
 			}
 			progressDialog.dismiss();
+			setUp();
 		}
 
 	}

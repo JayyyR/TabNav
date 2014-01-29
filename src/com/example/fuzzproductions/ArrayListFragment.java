@@ -42,9 +42,10 @@ public class ArrayListFragment  extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		String[] temp = {"test", "hi","go"};
-		setListAdapter(new ArrayAdapter<String>(getActivity(),
-				android.R.layout.simple_list_item_1, temp));
+		//String[] temp = {"test", "hi","go"};
+		//create new custon adapter
+		ListAdapter customAdapter = new ListAdapter(getActivity(), R.layout.list_item, Home.data);
+		setListAdapter(customAdapter);
 	}
 
 	@Override
