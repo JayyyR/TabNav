@@ -24,7 +24,7 @@ public class ArrayListFragment  extends ListFragment {
 		return f;
 	}
 
-	//grab num, our page number
+	//grab num which is our page number
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
